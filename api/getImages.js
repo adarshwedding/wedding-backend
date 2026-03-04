@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
   try {
     const result = await cloudinary.search
-      .expression(`folder:${folder}`)
+      .expression(`public_id:${folder}/*`)
       .sort_by("created_at", "desc")
       .max_results(100)
       .execute();
