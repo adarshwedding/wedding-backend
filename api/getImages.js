@@ -8,13 +8,17 @@ cloudinary.config({
 
 export default async function handler(req, res) {
 
-  const { folder } = req.query;
+  const folder = req.query.folder;
+
+  if (!folder) {
+    return res.status(400).json({ error: "Folder is required" });
+  }
 
   try {
 
     const result = await cloudinary.search
-      .expression(`folder:${folder}`)
-      .sort_by("created_at","desc")
+      .expression(`folder="${folder}"`)
+      .sort_by("created_at", "desc")
       .max_results(100)
       .execute();
 
